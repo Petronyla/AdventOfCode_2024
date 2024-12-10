@@ -35,6 +35,33 @@ public class Day_01 {
             sum += Math.abs(col2.get(i) - col1.get(i));
         }
 
-        System.out.println(sum);
+        System.out.println("Part 1 solution: " + sum);
+
+        int similarityScore = 0;
+
+        for (Integer number : col1) {
+            int frequency = getFrequency(number, col2);
+            similarityScore += number * frequency;
+        }
+
+        System.out.println("Part 2 solution: " + similarityScore);
+
+    }
+
+    private static int getFrequency(int num, List<Integer> list) {
+        int frequency = 0;
+
+        if (list.contains(num)) {
+            for (Integer listItem : list) {
+                if (listItem.equals(num)) {
+                    frequency++;
+                } else if (listItem.compareTo(num) > 0) {
+                    break;
+                }
+            }
+        }
+        return frequency;
     }
 }
+
+
