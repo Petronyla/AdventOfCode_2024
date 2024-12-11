@@ -19,46 +19,54 @@ public class Day_02 {
 
         int save = 0;
         for (String line : lines) {
-            String[] parts = line.split("\\s+");
-            int[] numbers = new int[parts.length];
+            String[] levels = line.split("\\s+");
+            List<Integer> report = new ArrayList<>();
 
-            for (int i = 0; i < parts.length; i++) {
-
-                numbers[i] = Integer.parseInt(parts[i]);
+            for (String s : levels) {
+                report.add(Integer.parseInt(s));
             }
 
-            if (isSave(numbers)) {
+            if (isSave(report)) {
                 save++;
+            } else {
+                for (Integer level : report) {
+                    List<Integer> copyOfReport = new ArrayList<>(report);
+                    copyOfReport.remove(level);
+                    if (isSave(copyOfReport)) {
+                        save++;
+                        break;
+                    }
+                }
             }
         }
 
-        System.out.println("Part one solution: " + save);
+        System.out.println("Part two solution: " + save);
     }
 
-    private static boolean isSave(int[] line) {
+    private static boolean isSave(List<Integer> line) {
         if (!isIncreasing(line) && !isDecreasing(line)) {
             return false;
         }
-        for (int i = 0; i < line.length - 1; i++) {
-            if (Math.abs(line[i] - line[i + 1]) > 3) {
+        for (int i = 0; i < line.size() - 1; i++) {
+            if (Math.abs(line.get(i) - line.get(i + 1)) > 3) {
                 return false;
             }
         }
         return true;
     }
 
-    private static boolean isIncreasing(int[] line) {
-        for (int i = 0; i < line.length - 1; i++) {
-            if (line[i] >= line[i + 1]) {
+    private static boolean isIncreasing(List<Integer> line) {
+        for (int i = 0; i < line.size() - 1; i++) {
+            if (line.get(i) >= line.get(i + 1)) {
                 return false;
             }
         }
         return true;
     }
 
-    private static boolean isDecreasing(int[] line) {
-        for (int i = 0; i < line.length - 1; i++) {
-            if (line[i] <= line[i + 1]) {
+    private static boolean isDecreasing(List<Integer> line) {
+        for (int i = 0; i < line.size() - 1; i++) {
+            if (line.get(i) <= line.get(i + 1)) {
                 return false;
             }
         }
