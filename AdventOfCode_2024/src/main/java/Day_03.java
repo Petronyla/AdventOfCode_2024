@@ -12,40 +12,38 @@ public class Day_03 {
         File file = new File("src/main/resources/Day_03.txt");
         BufferedReader br = new BufferedReader(new FileReader(file));
 
-        List<String> lines = new ArrayList<>();
         String tmp;
+        StringBuilder sb = new StringBuilder();
 
         while ((tmp = br.readLine()) != null) {
-            lines.add(tmp);
+            sb.append(tmp);
         }
+
+        String trimRegex = "don't\\(\\).*?do\\(\\)|don't\\(\\).*";
+
+        String input = sb.toString().replaceAll(trimRegex, "");
 
         List<String> mulls = new ArrayList<>();
         String regex = "mul\\([0-9]+,[0-9]+\\)";
         Pattern pattern = Pattern.compile(regex);
 
-        for (String line : lines) {
-            Matcher matcher = pattern.matcher(line);
+        Matcher matcher = pattern.matcher(input);
 
-            while (matcher.find()) {
-                mulls.add(matcher.group());
-            }
-        }
-
-        for (String mull : mulls) {
-            System.out.println(mull);
+        while (matcher.find()) {
+            mulls.add(matcher.group());
         }
 
         List<Integer[]> pairs = new ArrayList<>();
-        String mullRegex = "[0-9]+";
-        Pattern mullPattern = Pattern.compile(mullRegex);
+        String mulRegex = "[0-9]+";
+        Pattern mulPattern = Pattern.compile(mulRegex);
 
         for (String mull : mulls) {
             Integer[] pair = new Integer[2];
-            Matcher matcher = mullPattern.matcher(mull);
+            Matcher mulMatcher = mulPattern.matcher(mull);
 
             int i = 0;
-            while (matcher.find()) {
-                pair[i] = Integer.parseInt(matcher.group());
+            while (mulMatcher.find()) {
+                pair[i] = Integer.parseInt(mulMatcher.group());
                 i++;
             }
 
@@ -58,7 +56,6 @@ public class Day_03 {
             sum += pair[0] * pair[1];
         }
 
-        System.out.println("Solution for part one: " + sum);
-
+        System.out.println("Solution for part two: " + sum);
     }
 }
