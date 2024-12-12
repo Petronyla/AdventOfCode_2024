@@ -61,6 +61,25 @@ public class Day_04 {
                 }
             }
         }
-        System.out.println("Solution for day four is: " + cnt);
+        System.out.println("Solution for part one of day four is: " + cnt);
+
+        cnt = 0;
+
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if (grid[i][j] == 'A') {
+                    if (i - 1 >= 0 && i + 1 < grid.length && j - 1 >= 0 && j + 1 < grid[i].length) {
+                        if (((grid[i - 1][j - 1] == 'M' && grid[i + 1][j + 1] == 'S') ||
+                                (grid[i - 1][j - 1] == 'S' && grid[i + 1][j + 1] == 'M')) &&
+                        ((grid[i + 1][j - 1] == 'M' && grid[i - 1][j + 1] == 'S') ||
+                                (grid[i + 1][j - 1] == 'S' && grid[i - 1][j + 1] == 'M'))) {
+                            cnt++;
+                        }
+                    }
+                }
+            }
+        }
+
+        System.out.println("Solution for part two of day four is: " + cnt);
     }
 }
