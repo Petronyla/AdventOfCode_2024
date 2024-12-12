@@ -10,7 +10,8 @@ public class Day_05 {
         List<String> rules = new ArrayList<>();
         List<String> updates = new ArrayList<>();
         String tmp;
-        int sum = 0;
+        int sum_part1 = 0;
+        int sum_part2 = 0;
 
         while ((tmp = br.readLine()) != null) {
             if (tmp.isEmpty()) {
@@ -38,10 +39,14 @@ public class Day_05 {
                 numbers[i] = Integer.parseInt(s[i]);
             }
             if (isValid(rulesArray, numbers)) {
-                sum += numbers[numbers.length / 2];
+                sum_part1 += numbers[numbers.length / 2];
+            } else {
+                int[] tmpResult = correctOrder(rulesArray, numbers);
+                sum_part2 += tmpResult[tmpResult.length / 2];
             }
         }
-        System.out.println("The solution for the part one of the fifth day: " + sum);
+        System.out.println("The solution for the part one of the fifth day: " + sum_part1);
+        System.out.println("The solution for the part two of the fifth day: " + sum_part2);
     }
 
     private static boolean isValid(Integer[][] rulesArray, int[] numbers) {
@@ -55,5 +60,21 @@ public class Day_05 {
             }
         }
         return true;
+    }
+
+    private static int[] correctOrder(Integer[][] rulesArray, int[] numbers) {
+        for (int i = 0; i < numbers.length; i++) {
+            for (int j = 0; j < i; j++) {
+                for (Integer[] integers : rulesArray) {
+                    if (integers[0] == numbers[i] && integers[1] == numbers[j]) {
+                        int temp = numbers[i];
+                        numbers[i] = numbers[j];
+                        numbers[j] = temp;
+                        correctOrder(rulesArray, numbers);
+                    }
+                }
+            }
+        }
+        return numbers;
     }
 }
